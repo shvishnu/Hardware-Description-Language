@@ -1,0 +1,28 @@
+/* a general-purpose circuit that performs bitwise AND on two bit sequences of length 16, X and Y */
+/* the result G is used in the adder circuit as the array of generate terms */
+
+CHIP AND16by16 {
+
+	IN  X[16], Y[16];
+	OUT G[16];
+
+	PARTS:
+
+	And(a =  X[0], b =  Y[0], out =  G[0]);
+	And(a =  X[1], b =  Y[1], out =  G[1]);
+	And(a =  X[2], b =  Y[2], out =  G[2]);
+	And(a =  X[3], b =  Y[3], out =  G[3]);
+	And(a =  X[4], b =  Y[4], out =  G[4]);
+	And(a =  X[5], b =  Y[5], out =  G[5]);
+	And(a =  X[6], b =  Y[6], out =  G[6]);
+	And(a =  X[7], b =  Y[7], out =  G[7]);
+	And(a =  X[8], b =  Y[8], out =  G[8]);
+	And(a =  X[9], b =  Y[9], out =  G[9]);
+	And(a = X[10], b = Y[10], out = G[10]);
+	And(a = X[11], b = Y[11], out = G[11]);
+	And(a = X[12], b = Y[12], out = G[12]);
+	And(a = X[13], b = Y[13], out = G[13]);
+	And(a = X[14], b = Y[14], out = G[14]);
+	And(a = X[15], b = Y[15], out = G[15]);
+
+}

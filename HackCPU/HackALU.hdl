@@ -1,0 +1,33 @@
+CHIP HackALU {
+
+    	IN  x[16], y[16], zx, nx, zy, ny, f, no;
+    	OUT out[16], zr, ng;
+
+    	PARTS:
+
+	/****** checking if x and y are zero ******/
+	MUX2to1(x = x, y = false, sel = zx, out = ax);
+	MUX2to1(x = y, y = false, sel = zy, out = ay);
+
+	/****** calculation of p and q bits ******/
+	XOR16by1(a = ax, b = nx, c = p);
+	XOR16by1(a = ay, b = ny, c = q);
+
+	/****** addition and bitwise AND ******/
+	ADDER16(X = p, Y = q, U = false, AS = false, Z = sumpq);
+	AND16by16(X = p, Y = q, G = andpq);
+	
+	/****** selecting bitwise and or addition ******/
+	MUX2to1(x = andpq, y = sumpq, sel = f, out = r);
+
+	XOR16by1(a = r, b = no, c = out, c[15] = out15, c = copyout);
+
+	/****** computing ng ******/
+	And(a = out15, b = true, out = ng);
+
+	/****** computing zr ******/
+	OR16(X = copyout, Y = o);
+	Not(in = o, out = zr); 
+
+}
+

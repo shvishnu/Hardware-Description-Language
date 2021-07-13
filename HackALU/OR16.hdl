@@ -1,0 +1,27 @@
+/* ORs 16 bits inputted in the form of an array, X[0..15] */
+
+CHIP OR16 {
+
+	IN  X[16];
+	OUT Y;
+
+	PARTS:
+	//Y = x0|x1|x2|x3|x4|x5|x6|x7|x8|x9|x10|x0|x11|x12|x13|x14|x15
+	
+	Or(a = X[0], b = X[1], out = U0);
+	Or(a = U0, b = X[2], out = U1);
+	Or(a = U1, b = X[3], out = U2);
+	Or(a = U2, b = X[4], out = U3);
+	Or(a = U3, b = X[5], out = U4);	
+	Or(a = U4, b = X[6], out = U5);
+	Or(a = U5, b = X[7], out = U6);
+	Or(a = U6, b = X[8], out = U7);
+	Or(a = U7, b = X[9], out = U8);
+	Or(a = U8, b = X[10], out = U9);
+	Or(a = U9, b = X[11], out = U10);
+	Or(a = U10, b = X[12], out = U11);
+	Or(a = U11, b = X[13], out = U12);
+	Or(a = U12, b = X[14], out = U13);
+	Or(a = U13, b = X[15], out = Y);
+
+}

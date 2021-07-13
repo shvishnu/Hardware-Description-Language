@@ -1,0 +1,14 @@
+/* ANDs 4 bits inputted in the form of an array, P[0..3] */
+
+CHIP AND4 {
+
+	IN  P[4];
+	OUT Z;
+
+	PARTS:
+
+	And(a = P[3], b = P[2], out = U1);
+	And(a = P[1], b = P[0], out = U2);
+	And(a =   U1, b =   U2, out =  Z);
+
+}

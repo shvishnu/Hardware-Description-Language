@@ -1,0 +1,28 @@
+/* determines the bitwise XOR of two bit sequences X and Y */
+/* P = X (bitwise XOR) Y is essentially the array of propagate terms */
+
+ CHIP XOR16by16 {
+	
+	IN  X[16], Y[16];
+	OUT P[16];
+
+	PARTS:
+	
+	XOR(A =  X[0], B =  Y[0], C =  P[0]);
+	XOR(A =  X[1], B =  Y[1], C =  P[1]);
+	XOR(A =  X[2], B =  Y[2], C =  P[2]);
+	XOR(A =  X[3], B =  Y[3], C =  P[3]);
+	XOR(A =  X[4], B =  Y[4], C =  P[4]);
+	XOR(A =  X[5], B =  Y[5], C =  P[5]);
+	XOR(A =  X[6], B =  Y[6], C =  P[6]);
+	XOR(A =  X[7], B =  Y[7], C =  P[7]);
+	XOR(A =  X[8], B =  Y[8], C =  P[8]);
+	XOR(A =  X[9], B =  Y[9], C =  P[9]);
+	XOR(A = X[10], B = Y[10], C = P[10]);
+	XOR(A = X[11], B = Y[11], C = P[11]);
+	XOR(A = X[12], B = Y[12], C = P[12]);
+	XOR(A = X[13], B = Y[13], C = P[13]);
+	XOR(A = X[14], B = Y[14], C = P[14]);
+	XOR(A = X[15], B = Y[15], C = P[15]);
+
+}

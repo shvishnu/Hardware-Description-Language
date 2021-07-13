@@ -1,0 +1,20 @@
+/* computes higher-level generate terms */
+
+CHIP GENHL {
+
+	IN P[4], G[4]; /* P[] and G[] are associated propagate and generate terms */
+	OUT Z;
+
+	PARTS:
+
+	And(a =  P[3], b =  P[2], out =  V1);
+	And(a =  P[1], b =  G[0], out =  V2);
+	And(a =    V1, b =    V2, out =  W1);
+	And(a =  P[3], b =  P[2], out =  V3);
+	And(a =    V3, b =  G[1], out =  W2);
+	And(a =  P[3], b =  G[2], out =  W3);
+	Or (a =    W1, b =    W2, out =  T1);
+	Or (a =    W3, b =  G[3], out =  T2);
+	Or (a =    T1, b =    T2, out =   Z);
+
+}

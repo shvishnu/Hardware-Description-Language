@@ -1,0 +1,19 @@
+/* given 2 bits A and B, computes C = A XOR B */
+
+CHIP XOR {
+
+	IN  A, B;
+	OUT C;
+	
+	PARTS:
+	
+	/* complement generation */
+	Not(in = A, out = nA);
+	Not(in = B, out = nB);
+
+	/* C = A'B + AB' = A XOR B */
+	And(a =  A, b = nB, out = Z1);
+	And(a =  B, b = nA, out = Z2);
+	Or (a = Z1, b = Z2, out =  C);
+
+}

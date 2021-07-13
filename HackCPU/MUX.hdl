@@ -1,0 +1,15 @@
+/******* Multiplexor for 2 operands of 1 bit and 1 select line ********/
+
+CHIP MUX {
+
+    	IN a, b, sel;
+    	OUT out;
+
+    	PARTS:
+	Not(in = sel, out = nsel);
+    	And(a = sel , b = b, out = x);
+    	And(a = nsel, b = a, out = y);
+    	Or(a = x, b = y, out = out);
+	
+	//out = a, sel = 0, out = b, sel = 1
+}

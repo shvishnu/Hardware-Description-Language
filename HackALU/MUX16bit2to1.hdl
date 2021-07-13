@@ -1,0 +1,31 @@
+/*********** MUX1bit2to1 for 16 bit 2 operands with one select line *******/
+
+//output is x if sel = 0
+//output is y if sel = 1
+
+CHIP MUX16bit2to1 {
+
+    IN x[16], y[16], sel;
+    OUT out[16];
+
+    PARTS:
+	
+	//For each bit separately
+	MUX1bit2to1(a = x[0], b = y[0],sel = sel, out = out[0]);
+	MUX1bit2to1(a = x[1], b = y[1],sel = sel, out = out[1]);
+	MUX1bit2to1(a = x[2], b = y[2],sel = sel, out = out[2]);
+	MUX1bit2to1(a = x[3], b = y[3],sel = sel, out = out[3]);
+	MUX1bit2to1(a = x[4], b = y[4],sel = sel, out = out[4]);
+	MUX1bit2to1(a = x[5], b = y[5],sel = sel, out = out[5]);
+	MUX1bit2to1(a = x[6], b = y[6],sel = sel, out = out[6]);
+	MUX1bit2to1(a = x[7], b = y[7],sel = sel, out = out[7]);
+	MUX1bit2to1(a = x[8], b = y[8],sel = sel, out = out[8]);
+	MUX1bit2to1(a = x[9], b = y[9],sel = sel, out = out[9]);
+	MUX1bit2to1(a = x[10], b = y[10],sel = sel, out = out[10]);
+	MUX1bit2to1(a = x[11], b = y[11],sel = sel, out = out[11]);
+	MUX1bit2to1(a = x[12], b = y[12],sel = sel, out = out[12]);
+	MUX1bit2to1(a = x[13], b = y[13],sel = sel, out = out[13]);
+	MUX1bit2to1(a = x[14], b = y[14],sel = sel, out = out[14]);
+	MUX1bit2to1(a = x[15], b = y[15],sel = sel, out = out[15]);
+
+}

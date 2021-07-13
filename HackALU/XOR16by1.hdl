@@ -1,0 +1,28 @@
+/* given a bit sequence a[16] of length 16 and a bit b, XORs each 
+   a[i] and b and stores the result in the bit sequence c[16]     */
+
+CHIP XOR16by1 {
+
+	IN  a[16], b;
+	OUT c[16];
+
+	PARTS:
+
+	XOR(A =  a[0], B = b, C =  c[0]);
+	XOR(A =  a[1], B = b, C =  c[1]);
+	XOR(A =  a[2], B = b, C =  c[2]);
+	XOR(A =  a[3], B = b, C =  c[3]);
+	XOR(A =  a[4], B = b, C =  c[4]);
+	XOR(A =  a[5], B = b, C =  c[5]);
+	XOR(A =  a[6], B = b, C =  c[6]);
+	XOR(A =  a[7], B = b, C =  c[7]);
+	XOR(A =  a[8], B = b, C =  c[8]);
+	XOR(A =  a[9], B = b, C =  c[9]);
+	XOR(A = a[10], B = b, C = c[10]);
+	XOR(A = a[11], B = b, C = c[11]);
+	XOR(A = a[12], B = b, C = c[12]);
+	XOR(A = a[13], B = b, C = c[13]);
+	XOR(A = a[14], B = b, C = c[14]);
+	XOR(A = a[15], B = b, C = c[15]);
+
+}

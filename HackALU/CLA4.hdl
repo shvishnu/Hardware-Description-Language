@@ -1,0 +1,25 @@
+/* 4-bit CLA module, that takes a carry bit and the propagate, 
+	generate terms as input; outputs the sum bits and the last internal carry-bit */
+
+CHIP CLA4 {
+	
+	IN  P[4], G[4], C0;
+	OUT S[4], F;             /* F is used for overflow detection */
+
+	PARTS:
+
+	/* computation of the internal carry bits */
+	And(a = P[0], b =   C0, out = J0);
+	Or (a =   J0, b = G[0], out = C1);
+	And(a = P[1], b =   C1, out = J1);
+	Or (a =   J1, b = G[1], out = C2);
+	And(a = P[2], b =   C2, out = J2);
+	Or (a =   J2, b = G[2], out =  F, out = F0);
+
+	/* computation of the sum bits */
+	XOR(A = P[0], B = C0, C = S[0]);
+ 	XOR(A = P[1], B = C1, C = S[1]);
+	XOR(A = P[2], B = C2, C = S[2]);
+	XOR(A = P[3], B = F0, C = S[3]);
+
+}

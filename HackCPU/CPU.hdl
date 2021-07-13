@@ -1,0 +1,57 @@
+CHIP CPU {
+
+    IN  inM[16],         // M input  (M = content of RAM[A])
+        instruction[16], // instruction for execution
+        reset;           // signals whether to re-start the current
+                         // program (reset == 1) or continue executing
+                         // the current program (reset == 0)
+
+    OUT outM[16],        // M output
+        writeM,          // write to M? 
+        addressM[15],    // address in data memory (of M)
+        pc[15];          // address of next instruction
+
+    PARTS:
+    	
+	/********** write control signals calculation **********/
+
+	And(a = instruction[15], b = instruction[4], out =  writeD);
+	Not(in = instruction[15], out = noti15);
+	And(a = instruction[15], b = instruction[5], out = writeA1);
+	Or(a = noti15, b = writeA1, out =  writeA);
+	And(a = instruction[15], b = instruction[3], out = writeM);
+
+	/**************** writing into registers ******************/
+
+    	DRegister(in = outALU, load =  writeD, out = outD); 
+	MUX2to1(x = outALU, y = instruction, sel = noti15, out = inA);		
+	ARegister(in = inA, load =  writeA, out = outA, out[0..14] = addressM);
+		
+	/************** arithmetic and logic calculations ****************/
+
+	MUX2to1(x = outA, y = inM, sel = instruction[12], out = inALU);
+	HackALU(x = outD, y = inALU, zx = instruction[11], nx = instruction[10], zy = instruction[9], ny = instruction[8], f = instruction[7], no = instruction[6], out = outALU, out = outM, zr = zr, ng = ng);
+
+	/************ jump conditions ***********/
+
+	And(a = instruction[0], b = instruction[1], out = jmp);
+	And(a = instruction[2], b = jmp, out = j1);	         /* JMP */
+
+	And(a = zr, b = instruction[1], out = j2);	         /* JEQ */
+			
+	And(a = ng, b = instruction[2], out = j3);	         /* JLT */
+			 
+	Or(a = zr, b = ng, out = jp);					
+	Not(in = jp, out = njp);							
+	And(a = njp, b = instruction[0], out = j4);	         /* JGT */	
+
+	Or(a = j1, b = j2, out = j12);
+	Or(a = j12, b = j3, out = j123);
+	Or(a = j123, b = j4, out = j1234);		         /* j1234 == 1 if some jump is to be performed */
+
+	/************** program counter **************/
+	And(a = j1234, b = instruction[15], out = load);
+	Not(in = load, out = inc);
+	PC(in = outA, load = load, inc = inc, reset = reset, out[0..14] = pc);
+
+}

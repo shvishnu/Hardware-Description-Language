@@ -1,0 +1,70 @@
+/* 4-bit CLA-based 16-bit adder/subtractor circuit that uses higher-level 
+           propagate and generate terms; X and Y are operands, Z is the result */
+
+CHIP ADDER16 {
+
+	IN  X[16], Y[16], U, AS;      /* AS: control signal, 0 for addition, 1 for subtraction; U: 1 iff operands are unsigned */
+	OUT Z[16], OF;                /* OF: overflow bit, 1 iff overflow error occurs */
+
+	PARTS:	
+
+	Not(in =  U, out =   S);      /* S = 1 iff operands are signed */
+	Not(in = AS, out = NAS);      /* NAS = 1 iff addition is to be performed */
+	XOR16by1(a = Y, b = AS, c = Y1); /* Y --> (-Y) iff AS = 1 */
+
+	/************ PROPAGATE TERMS ***************/
+	XOR16by16(X = X, Y = Y1, P[0..3] = P0, P[4..7] = P1, P[8..11] = P2, P[12..15] = P3);
+
+	/************* GENERATE TERMS ***************/
+	AND16by16(X = X, Y = Y1, G[0..3] = G0, G[4..7] = G1, G[8..11] = G2, G[12..15] = G3);
+
+	/******* HIGHER-LEVEL PROPAGATE TERMS *******/
+	AND4(P = P0, Z = PI0);
+	AND4(P = P1, Z = PI1);
+	AND4(P = P2, Z = PI2);
+	AND4(P = P3, Z = PI3);
+
+	/******* HIGHER-LEVEL GENERATE TERMS ********/
+	GENHL(P = P0, G = G0, Z = GI0);
+	GENHL(P = P1, G = G1, Z = GI1);
+	GENHL(P = P2, G = G2, Z = GI2);
+	GENHL(P = P3, G = G3, Z = GI3);
+
+	/******** INPUT CARRY BITS TO CLAs **********/
+	And(a = PI0, b =  AS, out =  J0);
+	Or (a =  J0, b = GI0, out =  C4); 
+	And(a = PI1, b =  C4, out =  J1);
+	Or (a =  J1, b = GI1, out =  C8); 
+	And(a = PI2, b =  C8, out =  J2);
+	Or (a =  J2, b = GI2, out = C12); 
+	And(a = PI3, b = C12, out =  J3);
+	Or (a =  J3, b = GI3, out = C16); 
+
+	/*************** 4-bit CLAs *****************/
+	CLA4(P = P0, G = G0, C0 =  AS, S =   Z[0..3]);
+	CLA4(P = P1, G = G1, C0 =  C4, S =   Z[4..7]);
+	CLA4(P = P2, G = G2, C0 =  C8, S =  Z[8..11]);
+	CLA4(P = P3, G = G3, C0 = C12, S = Z[12..15], F = C15);
+
+	
+	/************ overflow detection ************/
+	XOR(A = C15, B = C16, C   =  I); 
+	And(a =   S, b =   I, out = ES);
+	And(a =   U, b = NAS, out =  J); 
+	And(a = C16, b =   J, out = EU); 
+	Or (a =  ES, b =  EU, out = OF);
+	/* OF = C15 XOR C16 if S = 1,  C16 if U = 1 */
+}
+
+/* (rough) design of the circuit: Y is set to -Y if subtraction is to be performed; then propagate
+and generate terms are computed, using which corresponding higher-level terms are determined;
+the carry "look-ahead" bits are then determined - these are the carry bits that are fed as 
+input into the CLAs; note that this implementation does not feed X[..] or Y[..] into the CLAs, 
+but rather feeds the corresponding P[..] and G[..] - this is closer to what happens in actuality, 
+since the carry look-ahead bits are generated first; finally, the overflow bit is determined. */
+
+/* NOTE: if X and Y are unsigned, the circuit works only for X > Y (by design) */
+  
+
+	
+	
