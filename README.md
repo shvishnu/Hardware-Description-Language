@@ -1,6 +1,6 @@
 <h1 align="center">Hack ALU and Hack CPU in HDL</h1>
 
-This project was done as part of the coursework for the *CS2310 - Foundations of Computer Systems Design Lab* in the Jan - May 2021 Semester at IIT Madras under Dr. C. Chandra Sekhar.
+This project was done as part of the coursework for the *CS2310 - Foundations of Computer Systems Design Lab* course in the Jan - May 2021 Semester at IIT Madras under Dr. C. Chandra Sekhar.
 
 A Hack computer and Hack ALU was built on HDL. The Hack ALU supports increment, decrement, addition, subtraction, multiplication, bitwise AND, OR, XOR and NOT on 16 bit operands. The Hack CPU is an extension of the Hack ALU, it offers support for RAM, ROM, and can run `.asm` files.
 
